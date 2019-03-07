@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="../styles/main.css">
   </head>
   <body>
-    <!-- canvas of 10x20 tetris grid -->
-    <canvas id="main-grid" width="359" height="719"></canvas>
+    <!-- container for multiple canvas overlay -->
+    <div class="container">
+      <!-- static canvas of 10x20 tetris grid for set tetriminos -->
+      <canvas id="static-grid" width="359" height="719"></canvas>
+      <!-- dynamic canvas of 10x20 tetris grid for moving tetriminos on top -->
+      <canvas id="dynamic-grid" width="359" height="719"></canvas>
+    </div>
 
     <!-- scripts for tetris -->
     <script type="text/javascript" src="../scripts/main.js"></script>

@@ -1,4 +1,3 @@
-
 /* edit canvas attributes */
 canvas {
   /* add gridlines to 10x20 tetris board*/
@@ -7,4 +6,23 @@ canvas {
   /* black border around grid */
   border: 3px solid black;
   margin: 20px;
+}
+
+/* Overlay dynamic dynamic canvas over static canvas*/
+.container {
+  position: relative;
+}
+
+#static-grid {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+}
+
+#dynamic-grid {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1; /* on top */
 }
