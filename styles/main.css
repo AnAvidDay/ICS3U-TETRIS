@@ -1,8 +1,5 @@
 /* edit canvas attributes */
 canvas {
-  /* add gridlines to 10x20 tetris board*/
-  background-image: repeating-linear-gradient(0deg,transparent,transparent 35px,black 35px,black 36px),repeating-linear-gradient(-90deg,transparent,transparent 35px,black 35px,black 36px);
-  background-color: grey;
   /* black border around grid */
   border: 3px solid black;
   margin: 20px;
@@ -14,6 +11,11 @@ canvas {
 }
 
 #static-grid {
+  /* add gridlines to 10x20 tetris board*/
+  background-image: repeating-linear-gradient(0deg,transparent,transparent 35px,black 35px,black 36px),repeating-linear-gradient(-90deg,transparent,transparent 35px,black 35px,black 36px);
+
+  background-color: #c0c6b1;
+
   position: absolute;
   left: 0;
   top: 0;
