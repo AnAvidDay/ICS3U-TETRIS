@@ -46,19 +46,21 @@ function check() {
 function loop() {
   callCount++;  // increment by 1 each count
 
-  /* every 10 calls we update tetrimino downward by one square */
-  if (callCount == 40) {
-    /* clear canvas to erase old tetromino */
-    DYNAMIC_CTX.clearRect(0, 0, WIDTH, HEIGHT+20);
-    row_state += 36;    // move downwards a single block
-    update();           // update canvas by redrawing new pos
-    callCount = 0;
+  /* draw tetromino */
+  /* clear canvas to erase old tetromino */
+  DYNAMIC_CTX.clearRect(0, 0, WIDTH+20, HEIGHT+20);
+  update();  // update canvas by redrawing new pos
 
-    /* check if tetromino is out of bounds or hits a structure */
-    if (check()) {
-      currTet = Math.floor(Math.random() * 7); // generate new tetromino
-      row_state = -36; col_state = 180;        // reset to initial pos
-    }
+  /* check if tetromino is out of bounds or hits a structure */
+  if (check()) {
+    currTet = Math.floor(Math.random() * 7); // generate new tetromino
+    row_state = -36; col_state = 180;        // reset to initial pos
+  }
+
+  /* every 10 calls we update tetrimino downward by one square */
+  if (callCount == 50) {
+    row_state += 36;    // move downwards a single block
+    callCount = 0;
   }
   window.requestAnimationFrame(loop);
 }
