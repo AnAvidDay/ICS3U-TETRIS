@@ -12,7 +12,8 @@ const WIDTH = 350;      // width of STATIC_GRID in num pixels
 /* initialize root position of individual falling tetromino */
 var row_state = -36, col_state = 180;
 
-var callCount = 0;  // count the number of calls done by game loop
+var callCount = 0;   // count the number of calls done by game loop
+var speedLimit = 50; // Threshhold for when call count reaches the speedLimit
 
 /*
 I, O, T, J, L, S, Z
@@ -57,7 +58,7 @@ function loop() {
   }
 
   /* every 10 calls we update tetrimino downward by one square */
-  if (callCount == 50) {
+  if (callCount >= speedLimit) {
     row_state += 36;    // move downwards a single block
     callCount = 0;
   }

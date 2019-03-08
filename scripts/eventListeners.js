@@ -23,5 +23,12 @@ document.addEventListener("keydown", function(event) {
     col_state -= SQUARE_PXL + 1;
   } else if (event.keyCode == 39 && !wall(2)) {
     col_state += SQUARE_PXL + 1;
+  } else if (event.keyCode == 40) {
+    speedLimit = 5;
   }
+});
+
+/* when key is let go, decrease speed limit */
+document.addEventListener("keyup", function(event) {
+  speedLimit = 50;
 });
