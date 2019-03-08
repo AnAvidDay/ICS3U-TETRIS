@@ -33,7 +33,6 @@ function check() {
   /* iterate through every block in the tetromino */
   for (let i = 0; i < tetr[currTet].length; i++) {
     /* current pos for each block*/
-    let col = col_state + tetr[currTet][i][1]*36;
     let row = row_state + tetr[currTet][i][0]*36;
 
     /* see if any obstructions directly below */
