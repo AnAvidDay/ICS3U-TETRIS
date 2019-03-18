@@ -17,20 +17,16 @@ function wall(side) {
   return false;
 }
 
+// records which keys are pressed
+let keyState = {};
+
 /* add event listeners for key presses */
 document.addEventListener("keydown", function(event) {
-  if (event.keyCode == 37 && !wall(1)) {  // move leftward as long as no wall
-    speedLimit = 45;
-    col_state -= SQUARE_PXL + 1;
-  } else if (event.keyCode == 39 && !wall(2)) { // move rightward as long as no wall
-    speedLimit = 45;
-    col_state += SQUARE_PXL + 1;
-  } else if (event.keyCode == 40) { // speeds up when holding down
-    speedLimit = 5;
-  }
+  keyState[event.keyCode] = 1;
 });
 
 /* when key is let go, decrease speed limit */
 document.addEventListener("keyup", function(event) {
+  keyState[event.keyCode] = 0;
   speedLimit = 50;
 });

@@ -46,6 +46,16 @@ function check() {
 function loop() {
   callCount++;  // increment by 1 each count
 
+  /* moves tetrominoes based on which key is pressed */
+  if (keyState[37] && callCount % 6 == 0 && !wall(1)) {
+    col_state -= SQUARE_PXL + 1;
+  }
+  if (keyState[39] && callCount % 6 == 0 && !wall(2)) {
+    col_state += SQUARE_PXL + 1;
+  }
+  if (keyState[40]) {
+    speedLimit = 5;
+  }
   /* draw tetromino */
   /* clear canvas to erase old tetromino */
   DYNAMIC_CTX.clearRect(0, 0, WIDTH+20, HEIGHT+20);
