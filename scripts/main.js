@@ -46,13 +46,18 @@ function check() {
 function loop() {
   callCount++;  // increment by 1 each count
 
-  /* moves tetrominoes based on which key is pressed */
-  if (keyState[37] && callCount % 6 == 0 && !wall(1)) {
+  /*
+  - moves tetrominoes based on which key is pressed
+  - check when it hits a wall
+  - in order to limit speed, only update when callcount is a multiple of 5.
+  */
+  if (keyState[37] && callCount % 5 == 0 && !wall(1)) {
     col_state -= SQUARE_PXL + 1;
   }
-  if (keyState[39] && callCount % 6 == 0 && !wall(2)) {
+  if (keyState[39] && callCount % 5 == 0 && !wall(2)) {
     col_state += SQUARE_PXL + 1;
   }
+  // move faster when down arrow is pressed
   if (keyState[40]) {
     speedLimit = 5;
   }

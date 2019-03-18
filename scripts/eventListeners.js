@@ -22,11 +22,14 @@ let keyState = {};
 
 /* add event listeners for key presses */
 document.addEventListener("keydown", function(event) {
+  // set the state of the pressed key to true
   keyState[event.keyCode] = 1;
 });
 
 /* when key is let go, decrease speed limit */
 document.addEventListener("keyup", function(event) {
+  // key is no longer pressed.
   keyState[event.keyCode] = 0;
+  // speed reset to 50
   speedLimit = 50;
 });
