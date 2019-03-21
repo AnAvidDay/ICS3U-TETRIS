@@ -24,7 +24,7 @@ var currTet = Math.floor(Math.random() * 7); // initial tetromino
 /* update canvas by drawing in new position of tetromino */
 function update() {
   for (let i = 0; i < tetr[currTet].length; i++) {
-    DYNAMIC_CTX.fillStyle = "blue";
+    DYNAMIC_CTX.fillStyle = "#bc4d9b";
     DYNAMIC_CTX.fillRect(col_state+(tetr[currTet][i][1]*36), row_state+(tetr[currTet][i][0]*36), SQUARE_PXL, SQUARE_PXL);
   }
 }
