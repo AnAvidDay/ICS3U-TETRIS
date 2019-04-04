@@ -76,7 +76,6 @@ function add() {
     /* set it in occupied */
     occupied[row/36][col/36] = true;
   }
-  console.log(occupied);
 }
 
 /* game loop */
@@ -104,16 +103,15 @@ function loop() {
   DYNAMIC_CTX.clearRect(0, 0, WIDTH+20, HEIGHT+20);
   update();  // update canvas by redrawing new pos
 
-  /* check if tetromino is out of bounds or hits a structure */
-  if (check()) {
-    // add the current tetromino to the occupied grid and set it.
-    add();
-    currTet = Math.floor(Math.random() * 7); // generate new tetromino
-    row_state = -36; col_state = 180;        // reset to initial pos
-  }
-
   /* every 10 calls we update tetrimino downward by one square */
   if (callCount >= speedLimit) {
+    /* check if tetromino is out of bounds or hits a structure */
+    if (check()) {
+      // add the current tetromino to the occupied grid and set it.
+      add();
+      currTet = Math.floor(Math.random() * 7); // generate new tetromino
+      row_state = -36; col_state = 180;        // reset to initial pos
+    }
     row_state += 36;    // move downwards a single block
     callCount = 0;
   }
