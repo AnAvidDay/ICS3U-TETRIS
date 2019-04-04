@@ -1,3 +1,7 @@
+/* BUGS
+when you move left, you can move into the blocks
+
+*/
 /* retrive STATIC_GRID by saving canvas in a variable */
 const STATIC_GRID = document.getElementById("static-grid");
 const STATIC_CTX = STATIC_GRID.getContext("2d");
@@ -66,6 +70,8 @@ function check() {
   return false;
 }
 
+/* for setting the tetrominoes
+   in place if they land */
 function add() {
   /* iterate through every block in the tetromino */
   for (let i = 0; i < tetr[currTet].length; i++) {
@@ -75,6 +81,23 @@ function add() {
 
     /* set it in occupied */
     occupied[row/36][col/36] = true;
+  }
+}
+
+/* tetris is when they clear a block */
+function tetris() {
+  for (let i = 0; i < 20; i++) {
+    var cnt = 0;  // counter
+    for (let j = 0; j < 10; j++) {
+      if (occupied[i][j]) cnt++;
+    }
+    /* if it is a tetris, remove entire row */
+    if (cnt == 10) {
+      console.log("TETRIS");
+      for (let j = 0; j < 10; j++) {
+        occupied[i][j] = false;
+      }
+    }
   }
 }
 
@@ -109,6 +132,12 @@ function loop() {
     if (check()) {
       // add the current tetromino to the occupied grid and set it.
       add();
+
+      // check if tetris has occured
+      /* check if an entire row is true
+         and remove it if it is */
+      tetris();
+
       currTet = Math.floor(Math.random() * 7); // generate new tetromino
       row_state = -36; col_state = 180;        // reset to initial pos
     }
