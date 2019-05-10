@@ -1,12 +1,17 @@
 /*
+BUGS:
+Delay on right side
+*/
+
+/*
 checker for left and right walls
 */
 function wall(side) {
   /* iterate through every block in the tetromino */
-  for (let i = 0; i < tetr[currTet].length; i++) {
+  for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
     /* current pos for each block*/
-    let col = col_state + tetr[currTet][i][1] * 36;
-    let row = row_state + tetr[currTet][i][0] * 36;
+    let col = col_state + tetr[currTet].config[configState][i][1] * 36;
+    let row = row_state + tetr[currTet].config[configState][i][0] * 36;
 
     // to make sure tetrominoe does not go out-of-bounds
     if (col <= 0 && side == 1) {

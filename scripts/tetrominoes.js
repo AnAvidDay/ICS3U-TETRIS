@@ -4,17 +4,51 @@ Starting from the middle-most square, we build up.
 
 directions given in [r, c] where r is the row increment and c the column increment relative to the root square
 
-the tetrominos are given in this order: I, O, T, J, L, S, Z
+the tetrominoes are given in this order: I, O, T, L, J, S, Z
 */
 
-/* stores tetrminoes in a dictionary for easy access */
+// Create an object to store each tetrominoe and its configurations
+function TetrConfig(config) {
+  this.config = config; // config is 3D Array of 7 x 4 x 2
+}
+
+/*
+stores tetrminoes in an array for easy access
+An array of Objects (TetrConfig)
+*/
 var tetr = {}
 
-/* save tetriminoes as letters. */
-tetr[0] = [[0, 0], [0, -1], [0, 1], [0, 2]];    // root is second square
-tetr[1] = [[0, 0], [0, -1], [-1, 0], [-1, -1]]; // root is bottom left
-tetr[2] = [[0, 0], [-1, 0], [-1, -1], [-1, 1]]; // root is bottom middle
-tetr[3] = [[0, 0], [-1, 0], [1, 0], [1, 1]];    // middle left
-tetr[4] = [[0, 0], [-1, 0], [1, 0], [1, -1]];   // middle right
-tetr[5] = [[0, 0], [0, -1], [-1, -1], [1, 0]];  // middle block
-tetr[6] = [[0, 0], [1, 0], [0, 1], [-1, 1]];    // middle block
+tetr[0] = new TetrConfig([[[0, 0], [0, -1], [0, 1], [0, 2]],
+[[0, 0], [1, 0], [-1, 0], [-2, 0]]]);
+
+tetr[1] = new TetrConfig([[[0, 0], [0, -1], [-1, 0], [-1, -1]]]);
+
+tetr[2] = new TetrConfig([[[0, 0], [0, -1], [0, 1], [1, 0]],
+[[0, 0], [1, 0], [-1, 0], [0, -1]],
+[[0, 0], [0, -1], [0, 1], [-1, 0]],
+[[0, 0], [-1, 0], [1, 0], [0, 1]]]);
+
+tetr[3] = new TetrConfig([[[0, 0], [-1, 0], [1, 0], [1, 1]],
+[[0, 0], [0, 1], [0, -1], [1, -1]],
+[[0, 0], [1, 0], [-1, 0], [-1, -1]],
+[[0, 0], [0, -1], [0, 1], [-1, 1]]]);
+
+tetr[4] = new TetrConfig([[[0, 0], [-1, 0], [1, 0], [1, -1]],
+[[0, 0], [0, 1], [0, -1], [-1, -1]],
+[[0, 0], [1, 0], [-1, 0], [-1, 1]],
+[[0, 0], [0, -1], [0, 1], [1, 1]]]);
+
+tetr[5] = new TetrConfig([[[0, 0], [0, -1], [-1, -1], [1, 0]],
+[[0, 0], [0, -1], [-1, 0], [-1, 1]]]);
+
+tetr[6] = new TetrConfig([[[0, 0], [1, 0], [0, 1], [-1, 1]],
+[0, 0], [0, 1], [-1, 0], [-1, -1]]);
+
+// /* save tetriminoes as letters. */
+// tetr[0] = [[0, 0], [0, -1], [0, 1], [0, 2]];    // root is second square
+// tetr[1] = [[0, 0], [0, -1], [-1, 0], [-1, -1]]; // root is bottom left
+// tetr[2] = [[0, 0], [0, -1], [0, 1], [1, 0]]; // root is top middle
+// tetr[3] = [[0, 0], [-1, 0], [1, 0], [1, 1]];    // middle left
+// tetr[4] = [[0, 0], [-1, 0], [1, 0], [1, -1]];   // middle right
+// tetr[5] = [[0, 0], [0, -1], [-1, -1], [1, 0]];  // middle block
+// tetr[6] = [[0, 0], [1, 0], [0, 1], [-1, 1]];    // middle block

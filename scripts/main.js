@@ -26,7 +26,7 @@ for (let i = 1; i <= 20; i++) {
   occupied.push(row);
 }
 
-/* initialize root position of individual falling tetromino */
+/* initialize root position of individual falling `tetr`omino */
 var row_state = -36, col_state = 180;
 
 var callCount = 0;   // count the number of calls done by game loop
@@ -37,12 +37,13 @@ I, O, T, J, L, S, Z
 0, 1, 2, 3, 4, 5, 6
 */
 var currTet = Math.floor(Math.random() * 7); // initial tetromino
+var configState = 0;                         // initial configuration
 
 /* update canvas by drawing in new position of tetromino */
 function update() {
   DYNAMIC_CTX.fillStyle = "#bc4d9b";
-  for (let i = 0; i < tetr[currTet].length; i++) {
-    DYNAMIC_CTX.fillRect(col_state+(tetr[currTet][i][1]*36), row_state+(tetr[currTet][i][0]*36), SQUARE_PXL, SQUARE_PXL);
+  for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
+    DYNAMIC_CTX.fillRect(col_state+(tetr[currTet].config[configState][i][1]*36), row_state+(tetr[currTet].config[configState][i][0]*36), SQUARE_PXL, SQUARE_PXL);
   }
   // draw any set tetrominoes
   for (let i = 0; i < 20; i++) {
@@ -57,10 +58,10 @@ function update() {
 /* hit and out-of-bounds checker */
 function check() {
   /* iterate through every block in the tetromino */
-  for (let i = 0; i < tetr[currTet].length; i++) {
+  for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
     /* current pos for each block*/
-    let row = row_state + tetr[currTet][i][0]*36;
-    let col = col_state + tetr[currTet][i][1]*36;
+    let row = row_state + tetr[currTet].config[configState][i][0]*36;
+    let col = col_state + tetr[currTet].config[configState][i][1]*36;
     /* see if any obstructions directly below */
     let in_range = row_state > 0; // cannot check occupied if row_state < 0
     if (row > HEIGHT - SQUARE_PXL || (in_range && occupied[row/36 + 1][col/36])) {
@@ -74,10 +75,10 @@ function check() {
    in place if they land */
 function add() {
   /* iterate through every block in the tetromino */
-  for (let i = 0; i < tetr[currTet].length; i++) {
+  for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
     /* current pos for each block*/
-    let row = row_state + tetr[currTet][i][0]*36;
-    let col = col_state + tetr[currTet][i][1]*36;
+    let row = row_state + tetr[currTet].config[configState][i][0]*36;
+    let col = col_state + tetr[currTet].config[configState][i][1]*36;
 
     /* set it in occupied */
     occupied[row/36][col/36] = true;
@@ -113,6 +114,11 @@ function loop() {
   if (keyState[37] && callCount % 5 == 0 && !wall(1)) {
     col_state -= SQUARE_PXL + 1;
   }
+  // up arrow means just the state
+  if (keyState[38] && callCount % 5 == 0) {
+    configState++;
+    configState %= tetr[currTet].config.length;
+  }
   if (keyState[39] && callCount % 5 == 0 && !wall(2)) {
     col_state += SQUARE_PXL + 1;
   }
@@ -139,6 +145,7 @@ function loop() {
       tetris();
 
       currTet = Math.floor(Math.random() * 7); // generate new tetromino
+      configState = 0;                         // reset configuration
       row_state = -36; col_state = 180;        // reset to initial pos
     }
     row_state += 36;    // move downwards a single block
