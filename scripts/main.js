@@ -93,16 +93,7 @@ function fallDown(bottomRow) {
   console.log(bottomRow);
   for (let i = bottomRow-1; i >= 0; i--) {
     for (let j = 0; j < 10; j++) {
-      let fall = i+1;
-      while(!occupied[fall][j]) {
-        fall++;
-        if (fall == bottomRow+1) break;
-      }
-      fall--;
-      if (occupied[i][j] && !occupied[fall][j]) {
-        occupied[fall][j] = 1;
-        occupied[i][j] = 0;
-      }
+      occupied[i+1][j] = occupied[i][j];
     }
   }
 }
