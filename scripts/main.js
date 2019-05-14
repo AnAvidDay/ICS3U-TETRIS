@@ -87,6 +87,7 @@ function add() {
 
 //only run when a row is cleared!
 function fallDown(bottomRow) {
+  console.log(bottomRow);
   // starting from the bottom, iterate upwards and bring down
   // any blocks with space beneath them
   console.log(bottomRow);
@@ -110,7 +111,7 @@ function fallDown(bottomRow) {
 function tetris() {
   let rowCleared = false;
   let last = 0;
-  for (let i = 19; i >= 0; i--) {
+  for (let i = 0; i < 20; i++) {
     var cnt = 0;  // counter
     for (let j = 0; j < 10; j++) {
       if (occupied[i][j]) cnt++;
