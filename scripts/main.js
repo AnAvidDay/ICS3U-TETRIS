@@ -111,15 +111,15 @@ function loop() {
   - check when it hits a wall
   - in order to limit speed, only update when callcount is a multiple of 5.
   */
-  if (keyState[37] && callCount % 5 == 0 && !wall(1)) {
+  if (keyState[37] && callCount % 5 == 0 && !wall(1, 0)) {
     col_state -= SQUARE_PXL + 1;
   }
   // up arrow means just the state
-  if (keyState[38] && callCount % 5 == 0) {
+  if (keyState[38] && callCount % 5 == 0 && !wall(1, 1) && !wall(2, 1)) {
     configState++;
     configState %= tetr[currTet].config.length;
   }
-  if (keyState[39] && callCount % 5 == 0 && !wall(2)) {
+  if (keyState[39] && callCount % 5 == 0 && !wall(2, 0)) {
     col_state += SQUARE_PXL + 1;
   }
   // move faster when down arrow is pressed

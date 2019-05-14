@@ -6,27 +6,47 @@ Delay on right side
 /*
 checker for left and right walls
 */
-function wall(side) {
+function wall(side, change) {
+  // create newConfigState to store either the current config state or
+  // the next if we are changing configurations.
+  //console.log(configState);
+  let newConfigState = (configState+change) % tetr[currTet].config.length;
+  //console.log(newConfigState);
   /* iterate through every block in the tetromino */
-  for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
+  for (let i = 0; i < tetr[currTet].config[newConfigState].length; i++) {
     /* current pos for each block*/
-    let col = col_state + tetr[currTet].config[configState][i][1] * 36;
-    let row = row_state + tetr[currTet].config[configState][i][0] * 36;
-
+    let col = col_state + tetr[currTet].config[newConfigState][i][1] * 36;
+    let row = row_state + tetr[currTet].config[newConfigState][i][0] * 36;
     // to make sure tetrominoe does not go out-of-bounds
-    if (col <= 0 && side == 1) {
-      return true;
-    } else if (col >= WIDTH - SQUARE_PXL && side == 2) {
-      return true;
+    if (change == 0) {
+      if (col <= 0 && side == 1) {
+        return true;
+      } else if (col >= WIDTH - SQUARE_PXL && side == 2) {
+        return true;
+      }
+    } else {
+      if (col < 0 && side == 1) {
+        return true;
+      } else if (col >= WIDTH && side == 2) {
+        return true;
+      }
     }
 
     /* see if obstructions on left or right side
       by checking for tetriminoes
     */
-    if (occupied[Math.max(0, row/36)][col/36 - 1] && 1) {
-      return true;
-    } else if (occupied[Math.max(0, row/36)][col/36 + 1] && 2) {
-      return true;
+    if (change == 0) {
+      if (occupied[Math.max(0, row/36)][col/36 - 1] && 1) {
+        return true;
+      } else if (occupied[Math.max(0, row/36)][col/36 + 1] && 2) {
+        return true;
+      }
+    } else {
+      if (occupied[Math.max(0, row/36)][col/36] && 1) {
+        return true;
+      } else if (occupied[Math.max(0, row/36)][col/36] && 2) {
+        return true;
+      }
     }
   }
   return false;
