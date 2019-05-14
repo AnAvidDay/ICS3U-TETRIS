@@ -43,12 +43,3 @@ tetr[5] = new TetrConfig([[[0, 0], [0, -1], [-1, -1], [1, 0]],
 
 tetr[6] = new TetrConfig([[[0, 0], [1, 0], [0, 1], [-1, 1]],
 [[0, 0], [0, 1], [-1, 0], [-1, -1]]]);
-
-// /* save tetriminoes as letters. */
-// tetr[0] = [[0, 0], [0, -1], [0, 1], [0, 2]];    // root is second square
-// tetr[1] = [[0, 0], [0, -1], [-1, 0], [-1, -1]]; // root is bottom left
-// tetr[2] = [[0, 0], [0, -1], [0, 1], [1, 0]]; // root is top middle
-// tetr[3] = [[0, 0], [-1, 0], [1, 0], [1, 1]];    // middle left
-// tetr[4] = [[0, 0], [-1, 0], [1, 0], [1, -1]];   // middle right
-// tetr[5] = [[0, 0], [0, -1], [-1, -1], [1, 0]];  // middle block
-// tetr[6] = [[0, 0], [1, 0], [0, 1], [-1, 1]];    // middle block
