@@ -86,22 +86,22 @@ function add() {
 }
 
 //only run when a row is cleared!
-function fallDown(bottomRow) {
-  console.log(bottomRow);
+function fallDown(bottomRow, topRow) {
   // starting from the bottom, iterate upwards and bring down
   // any blocks with space beneath them
-  console.log(bottomRow);
-  for (let i = bottomRow-1; i >= 0; i--) {
+  console.log(topRow, bottomRow);
+  for (let i = topRow-1; i >= 0; i--) {
     for (let j = 0; j < 10; j++) {
-      occupied[i+1][j] = occupied[i][j];
+      occupied[bottomRow][j] = occupied[i][j];
     }
+    bottomRow--;
   }
 }
 
 /* tetris is when they clear a block */
 function tetris() {
   let rowCleared = false;
-  let last = 0;
+  let last = 0, top = 30;
   for (let i = 0; i < 20; i++) {
     var cnt = 0;  // counter
     for (let j = 0; j < 10; j++) {
@@ -111,12 +111,13 @@ function tetris() {
     if (cnt == 10) {
       rowCleared = true;
       last = i;
+      top = Math.min(top, i);
       for (let j = 0; j < 10; j++) {
         occupied[i][j] = false;
       }
     }
   }
-  if (rowCleared) fallDown(last);
+  if (rowCleared) fallDown(last, top);
 }
 
 /* game loop */
