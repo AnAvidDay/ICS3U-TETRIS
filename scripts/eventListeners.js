@@ -9,9 +9,8 @@ checker for left and right walls
 function wall(side, change) {
   // create newConfigState to store either the current config state or
   // the next if we are changing configurations.
-  //console.log(configState);
   let newConfigState = (configState+change) % tetr[currTet].config.length;
-  //console.log(newConfigState);
+
   /* iterate through every block in the tetromino */
   for (let i = 0; i < tetr[currTet].config[newConfigState].length; i++) {
     /* current pos for each block*/
@@ -36,15 +35,15 @@ function wall(side, change) {
       by checking for tetriminoes
     */
     if (change == 0) {
-      if (occupied[Math.max(0, row/36)][col/36 - 1] && 1) {
+      if (occupied[Math.max(0, row/36)][col/36 - 1] && side == 1) {
         return true;
-      } else if (occupied[Math.max(0, row/36)][col/36 + 1] && 2) {
+      } else if (occupied[Math.max(0, row/36)][col/36 + 1] && side == 2) {
         return true;
       }
     } else {
-      if (occupied[Math.max(0, row/36)][col/36] && 1) {
+      if (occupied[Math.max(0, row/36)][col/36] && side == 1) {
         return true;
-      } else if (occupied[Math.max(0, row/36)][col/36] && 2) {
+      } else if (occupied[Math.max(0, row/36)][col/36] && side == 2) {
         return true;
       }
     }
@@ -66,5 +65,12 @@ document.addEventListener("keyup", function(event) {
   // key is no longer pressed.
   keyState[event.keyCode] = 0;
   // speed reset to 50
-  speedLimit = 50;
+  speedLimit = maxSpeedLimit;
+
+  // if user presses up arrow, change state by 1
+  // up arrow means just the state
+  if (event.keyCode == 38 && !wall(1, 1) && !wall(2, 1)) {
+    configState++;
+    configState %= tetr[currTet].config.length;
+  }
 });

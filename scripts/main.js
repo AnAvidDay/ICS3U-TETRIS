@@ -1,11 +1,8 @@
-/* BUGS
-when you move left, you can move into the blocks
-
-*/
-/* retrive STATIC_GRID by saving canvas in a variable */
-const STATIC_GRID = document.getElementById("static-grid");
-const STATIC_CTX = STATIC_GRID.getContext("2d");
+/* retrive HTML Elements by saving in a variable */
 const DYNAMIC_GRID = document.getElementById("dynamic-grid");
+const PSCORE = document.getElementById("p-score");
+
+// allows you to draw on canvas
 const DYNAMIC_CTX = DYNAMIC_GRID.getContext("2d");
 
 /* constants */
@@ -29,8 +26,12 @@ for (let i = 1; i <= 20; i++) {
 /* initialize root position of individual falling `tetr`omino */
 var row_state = -36, col_state = 180;
 
-var callCount = 0;   // count the number of calls done by game loop
-var speedLimit = 50; // Threshhold for when call count reaches the speedLimit
+var callCount = 0;      // count the number of calls done by game loop
+var speedLimit = 50;    // Threshhold for when call count reaches the speedLimit
+var maxSpeedLimit = 50; // tracks the maximum speed limit that will decrease as the game moves on
+
+var score = 0;          // stores the user score
+var totalCleared = 0;   // stores number of lines cleared to keep track when to move on to next level
 
 /*
 I, O, T, J, L, S, Z
@@ -100,8 +101,9 @@ function fallDown(bottomRow, topRow) {
 
 /* tetris is when they clear a block */
 function tetris() {
-  let rowCleared = false;
-  let last = 0, top = 30;
+  let rowCleared = false;   // tracks whether a row has been cleared
+  let last = 0, top = 30;   // tracks the highest and lowest rows that are cleared
+  let numCleared = 0;       // tracks number of rows that have been cleared
   for (let i = 0; i < 20; i++) {
     var cnt = 0;  // counter
     for (let j = 0; j < 10; j++) {
@@ -109,6 +111,8 @@ function tetris() {
     }
     /* if it is a tetris, remove entire row */
     if (cnt == 10) {
+      numCleared++;
+      score += 555;  // increase score
       rowCleared = true;
       last = i;
       top = Math.min(top, i);
@@ -117,11 +121,23 @@ function tetris() {
       }
     }
   }
-  if (rowCleared) fallDown(last, top);
+  totalCleared += numCleared;          // increment total lines cleared
+  if (numCleared) score *= numCleared; // bonus if you clear more than 1 row at once
+  if (rowCleared) fallDown(last, top); // drop down the blocks above after lines are cleared
 }
 
 /* game loop */
 function loop() {
+  // check whether next level has been reached
+  if (totalCleared >= 1) {
+    console.log(maxSpeedLimit);
+    //totalCleared %= 10; // reset back to 0, or how many after 10
+    totalCleared = 0;
+    maxSpeedLimit -= 5; // max_speed goes down.
+  }
+  // display the score for user
+  PSCORE.innerHTML = score;
+
   callCount++;  // increment by 1 each count
 
   /*
@@ -132,17 +148,13 @@ function loop() {
   if (keyState[37] && callCount % 5 == 0 && !wall(1, 0)) {
     col_state -= SQUARE_PXL + 1;
   }
-  // up arrow means just the state
-  if (keyState[38] && callCount % 5 == 0 && !wall(1, 1) && !wall(2, 1)) {
-    configState++;
-    configState %= tetr[currTet].config.length;
-  }
+
   if (keyState[39] && callCount % 5 == 0 && !wall(2, 0)) {
     col_state += SQUARE_PXL + 1;
   }
   // move faster when down arrow is pressed
   if (keyState[40]) {
-    speedLimit = 5;
+    speedLimit = maxSpeedLimit/10;
   }
 
   /* draw tetromino */
