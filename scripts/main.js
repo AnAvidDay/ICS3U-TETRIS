@@ -1,6 +1,8 @@
 /* retrive HTML Elements by saving in a variable */
 const DYNAMIC_GRID = document.getElementById("dynamic-grid");
 const PSCORE = document.getElementById("p-score");
+const PLEVEL = document.getElementById("p-level");
+const PCLEAR = document.getElementById("p-clear");
 
 // allows you to draw on canvas
 const DYNAMIC_CTX = DYNAMIC_GRID.getContext("2d");
@@ -31,7 +33,9 @@ var speedLimit = 50;    // Threshhold for when call count reaches the speedLimit
 var maxSpeedLimit = 50; // tracks the maximum speed limit that will decrease as the game moves on
 
 var score = 0;          // stores the user score
-var totalCleared = 0;   // stores number of lines cleared to keep track when to move on to next level
+var totalCleared = 0;   // stores number of lines cleared to track when to move on to next level
+var level = 1;          // current level to display to user
+
 
 /*
 I, O, T, J, L, S, Z
@@ -129,14 +133,15 @@ function tetris() {
 /* game loop */
 function loop() {
   // check whether next level has been reached
-  if (totalCleared >= 1) {
-    console.log(maxSpeedLimit);
-    //totalCleared %= 10; // reset back to 0, or how many after 10
-    totalCleared = 0;
+  if (totalCleared >= 10) {
+    level++;            // increase the level
+    totalCleared %= 10; // reset back to 0, or how many after 10
     maxSpeedLimit -= 5; // max_speed goes down.
   }
-  // display the score for user
-  PSCORE.innerHTML = score;
+  // display the score, level, and rows cleared for user
+  PSCORE.innerHTML = "Score: " + score;
+  PLEVEL.innerHTML = "Level: " + level;
+  PCLEAR.innerHTML = "Lines Cleared: " + totalCleared;
 
   callCount++;  // increment by 1 each count
 
