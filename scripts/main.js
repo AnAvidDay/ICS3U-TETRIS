@@ -25,6 +25,8 @@ for (let i = 1; i <= 20; i++) {
   occupied.push(row);
 }
 
+var gameIsOver = false;  // variable to track whether the game has finished
+
 /* initialize root position of individual falling `tetr`omino */
 var row_state = -36, col_state = 180;
 
@@ -68,7 +70,7 @@ function check() {
     let row = row_state + tetr[currTet].config[configState][i][0]*36;
     let col = col_state + tetr[currTet].config[configState][i][1]*36;
     /* see if any obstructions directly below */
-    let in_range = row_state > 0; // cannot check occupied if row_state < 0
+    let in_range = row_state >= 0; // cannot check occupied if row_state < 0
     if (row > HEIGHT - SQUARE_PXL || (in_range && occupied[row/36 + 1][col/36])) {
       return true;
     }
@@ -130,8 +132,24 @@ function tetris() {
   if (rowCleared) fallDown(last, top); // drop down the blocks above after lines are cleared
 }
 
+// function that returns a boolean to whether the player has lost
+function gameOverCheck() {
+  /* iterate through every block in the tetromino */
+  for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
+    /* current pos for each block*/
+    let row = row_state + tetr[currTet].config[configState][i][0]*36;
+    // if any of the blocks are at the top of the screen, then game over
+    if (row == 0) return true;
+  }
+  // otherwise game is not over
+  return false;
+}
+
 /* game loop */
 function loop() {
+  // if the game is over, don't do anything
+  if (gameIsOver) return;
+  
   // check whether next level has been reached
   if (totalCleared >= 10) {
     level++;            // increase the level
@@ -173,7 +191,10 @@ function loop() {
     if (check()) {
       // add the current tetromino to the occupied grid and set it.
       add();
-
+      if (gameOverCheck()) {
+        alert("Game Over");
+        gameIsOver = true;
+      }
       // check if tetris has occured
       /* check if an entire row is true
          and remove it if it is */
