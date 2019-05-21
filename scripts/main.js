@@ -26,6 +26,7 @@ for (let i = 1; i <= 20; i++) {
 }
 
 var gameIsOver = false;  // variable to track whether the game has finished
+var cheatCode = false;   // acts as a toggle to allow only I blocks to fall
 
 /* initialize root position of individual falling `tetr`omino */
 var row_state = -36, col_state = 180;
@@ -70,7 +71,7 @@ function check() {
     let row = row_state + tetr[currTet].config[configState][i][0]*36;
     let col = col_state + tetr[currTet].config[configState][i][1]*36;
     /* see if any obstructions directly below */
-    let in_range = row_state >= 0; // cannot check occupied if row_state < 0
+    let in_range = row >= 0; // cannot check occupied if row_state < 0
     if (row > HEIGHT - SQUARE_PXL || (in_range && occupied[row/36 + 1][col/36])) {
       return true;
     }
@@ -94,10 +95,10 @@ function add() {
 
 //only run when a row is cleared!
 function fallDown(bottomRow, topRow) {
-  // starting from the bottom, iterate upwards and bring down
+  console.log(bottomRow, topRow);
+  // starting from the top, iterate upwards and bring down
   // any blocks with space beneath them
-  console.log(topRow, bottomRow);
-  for (let i = topRow-1; i >= 0; i--) {
+  for (let i = topRow - 1; i >= 0; i--) {
     for (let j = 0; j < 10; j++) {
       occupied[bottomRow][j] = occupied[i][j];
     }
@@ -108,7 +109,7 @@ function fallDown(bottomRow, topRow) {
 /* tetris is when they clear a block */
 function tetris() {
   let rowCleared = false;   // tracks whether a row has been cleared
-  let last = 0, top = 30;   // tracks the highest and lowest rows that are cleared
+  let last = 0, top = 100;   // tracks the highest and lowest rows that are cleared
   let numCleared = 0;       // tracks number of rows that have been cleared
   for (let i = 0; i < 20; i++) {
     var cnt = 0;  // counter
@@ -149,7 +150,7 @@ function gameOverCheck() {
 function loop() {
   // if the game is over, don't do anything
   if (gameIsOver) return;
-  
+
   // check whether next level has been reached
   if (totalCleared >= 10) {
     level++;            // increase the level
@@ -190,17 +191,22 @@ function loop() {
     /* check if tetromino is out of bounds or hits a structure */
     if (check()) {
       // add the current tetromino to the occupied grid and set it.
-      add();
       if (gameOverCheck()) {
         alert("Game Over");
         gameIsOver = true;
+        return; //exit out
       }
+      add();
+
       // check if tetris has occured
       /* check if an entire row is true
          and remove it if it is */
       tetris();
-
-      currTet = Math.floor(Math.random() * 7); // generate new tetromino
+      if (cheatCode) {
+        currTet = 0;
+      } else {
+        currTet = Math.floor(Math.random() * 7); // generate new tetromino
+      }
       configState = 0;                         // reset configuration
       row_state = -36; col_state = 180;        // reset to initial pos
     }

@@ -73,4 +73,9 @@ document.addEventListener("keyup", function(event) {
     configState++;
     configState %= tetr[currTet].config.length;
   }
+
+  // b key acts as a toggle. While active, all falling tetrominoes will be I blocks.
+  if (event.keyCode == 66) {
+    cheatCode = !cheatCode; // swap boolean to either true or false by adding not
+  }
 });
