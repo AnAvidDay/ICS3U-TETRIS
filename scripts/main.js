@@ -95,13 +95,19 @@ function add() {
 
 //only run when a row is cleared!
 function fallDown(bottomRow, topRow) {
-  console.log(bottomRow, topRow);
   // starting from the top, iterate upwards and bring down
   // any blocks with space beneath them
-  for (let i = topRow - 1; i >= 0; i--) {
+  for (let i = topRow - 1; i > 0; i--) {
     for (let j = 0; j < 10; j++) {
+      // current row is pushed down to the first open row
       occupied[bottomRow][j] = occupied[i][j];
+
+      // no longer any blocks in current row
+      occupied[i][j] = 0;
     }
+
+    // each time a new row is pushed down, the next open row available would be
+    // the one above the current open row.
     bottomRow--;
   }
 }
