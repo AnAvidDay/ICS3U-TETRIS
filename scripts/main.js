@@ -1,3 +1,17 @@
+/*
+David Xiao
+Thursday, May 30th, 2019
+
+This is the classic game of Tetris. User is able to control a falling Tetromino
+with arrow keys. They can move it left and right, rotate it, and increase the
+falling speed. Every time a row is full, it is cleared and everything above falls
+down.
+
+There are levels and for each level, the falling speed increases.
+
+Press b to only get falling I Tetrominoes.
+*/
+
 /* retrive HTML Elements by saving in a variable */
 const DYNAMIC_GRID = document.getElementById("dynamic-grid");
 const PSCORE = document.getElementById("p-score");
