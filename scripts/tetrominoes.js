@@ -9,7 +9,9 @@ the tetrominoes are given in this order: I, O, T, L, J, S, Z
 
 // Create an object to store each tetrominoe and its configurations
 function TetrConfig(config) {
-  this.config = config; // config is 3D Array of 7 x 4 x 2
+  // config is an array of (# of rotation states) where
+  // each state contains (the instructions to build each state)
+  this.config = config;
 }
 
 /*
@@ -18,6 +20,7 @@ An array of Objects (TetrConfig)
 */
 var tetr = {}
 
+// Instructions to create every tetromino state
 tetr[0] = new TetrConfig([[[0, 0], [0, -1], [0, 1], [0, 2]],
 [[0, 0], [1, 0], [-1, 0], [-2, 0]]]);
 

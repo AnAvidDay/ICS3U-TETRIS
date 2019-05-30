@@ -79,6 +79,60 @@ function check() {
   return false;
 }
 
+/*
+checker for left and right walls
+side parameter determines the side the user is moving to
+change parameter determines if the action is a rotation, or just a movement
+return a boolean on whether the move is legal or not
+*/
+function wall(side, change) {
+  // create newConfigState to store either the current config state or
+  // the next if we are changing configurations.
+  let newConfigState = (configState+change) % tetr[currTet].config.length;
+
+  /* iterate through every block in the tetromino */
+  for (let i = 0; i < tetr[currTet].config[newConfigState].length; i++) {
+    /* current pos for each block*/
+    let col = col_state + tetr[currTet].config[newConfigState][i][1] * 36;
+    let row = row_state + tetr[currTet].config[newConfigState][i][0] * 36;
+
+    // to make sure tetrominoe does not go out-of-bounds
+    // when moving to the left or moving to the right
+    if (change == 0) {  // for moving left and right
+      if (col <= 0 && side == 1) {
+        return true;
+      } else if (col >= WIDTH - SQUARE_PXL && side == 2) {
+        return true;
+      }
+    } else {            // for rotations
+      if (col < 0 && side == 1) {
+        return true;
+      } else if (col >= WIDTH && side == 2) {
+        return true;
+      }
+    }
+
+    // to make sure tetrominoe does not hit any obstructions (occupied blocks)
+    // when moving to the left or moving to the right
+    if (change == 0) {  // for moving left and right
+      if (occupied[Math.max(0, row/36)][col/36 - 1] && side == 1) {
+        return true;
+      } else if (occupied[Math.max(0, row/36)][col/36 + 1] && side == 2) {
+        return true;
+      }
+    } else {            // for rotations
+      if (occupied[Math.max(0, row/36)][col/36] && side == 1) {
+        return true;
+      } else if (occupied[Math.max(0, row/36)][col/36] && side == 2) {
+        return true;
+      }
+    }
+  }
+
+  // otherwise the move is legal.
+  return false;
+}
+
 /* for setting the tetrominoes
    in place if they land */
 function add() {
@@ -124,11 +178,12 @@ function tetris() {
     }
     /* if it is a tetris, remove entire row */
     if (cnt == 10) {
-      numCleared++;
-      score += 555;  // increase score
-      rowCleared = true;
-      last = i;
-      top = Math.min(top, i);
+      numCleared++;             // add one to number of rows cleared
+      score += 555;             // increase score
+      rowCleared = true;        // a row has been cleared
+      last = i;                 // this is the lowest row cleared
+      top = Math.min(top, i);   // this is the highest row cleared
+      // everything is set to empty
       for (let j = 0; j < 10; j++) {
         occupied[i][j] = false;
       }
@@ -175,10 +230,11 @@ function loop() {
   - check when it hits a wall
   - in order to limit speed, only update when callcount is a multiple of 5.
   */
+  // left
   if (keyState[37] && callCount % 5 == 0 && !wall(1, 0)) {
     col_state -= SQUARE_PXL + 1;
   }
-
+  // right
   if (keyState[39] && callCount % 5 == 0 && !wall(2, 0)) {
     col_state += SQUARE_PXL + 1;
   }
@@ -196,20 +252,25 @@ function loop() {
   if (callCount >= speedLimit) {
     /* check if tetromino is out of bounds or hits a structure */
     if (check()) {
-      // add the current tetromino to the occupied grid and set it.
+      // check if the game is over
       if (gameOverCheck()) {
         alert("Game Over");
         gameIsOver = true;
         return; //exit out
       }
+
+      // add the current tetromino to the occupied grid and set it.
       add();
 
-      // check if tetris has occured
+      // check if a row has been cleared
       /* check if an entire row is true
          and remove it if it is */
       tetris();
+
+      // if user uses a cheat code, next tetromino is automatically an I
       if (cheatCode) {
         currTet = 0;
+      // otherwise generate random tetromino
       } else {
         currTet = Math.floor(Math.random() * 7); // generate new tetromino
       }
@@ -217,7 +278,7 @@ function loop() {
       row_state = -36; col_state = 180;        // reset to initial pos
     }
     row_state += 36;    // move downwards a single block
-    callCount = 0;
+    callCount = 0;      // callcount decreases
   }
   window.requestAnimationFrame(loop);
 }

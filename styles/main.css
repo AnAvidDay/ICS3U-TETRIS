@@ -31,8 +31,16 @@ canvas {
 
 /* Align the Score more to the right */
 h1 {
-  margin-top: 10%;
+  margin-top: 5%;
+  margin-left: 5%;
   text-align: center;
   color: orange;
   font-size: 60px;
+}
+
+/* Format Instructions */
+#instructions {
+  margin-top: 2%;
+  margin-left: 5%;
+  text-align: center;
 }
