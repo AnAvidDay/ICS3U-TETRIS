@@ -1,4 +1,7 @@
 /*
+David Xiao
+Thursday, May 30th, 2019
+
 the following are the directions of making each individual tetromino.
 Starting from the middle-most square, we build up.
 

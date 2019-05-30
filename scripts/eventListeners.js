@@ -1,3 +1,11 @@
+/*
+David Xiao
+Thursday, May 30th, 2019
+
+This file holds all the event listeners. It reads the user's key inputs
+for the main file to use.
+*/
+
 // records which keys are pressed
 let keyState = {};
 
