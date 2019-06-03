@@ -26,14 +26,14 @@ function check() {
 
 /*
 checker for left and right walls
-side parameter determines the side the user is moving to
-change parameter determines if the action is a rotation, or just a movement
+side parameter determines the side the user is moving towards
+rotate parameter determines if the action is a rotation, or just a movement
 return a boolean on whether the move is legal or not
 */
-function wall(side, change) {
+function wall(side, rotate) {
   // create newConfigState to store either the current config state or
   // the next if we are changing configurations.
-  let newConfigState = (configState+change) % tetr[currTet].config.length;
+  let newConfigState = (configState+rotate) % tetr[currTet].config.length;
 
   /* iterate through every block in the tetromino */
   for (let i = 0; i < tetr[currTet].config[newConfigState].length; i++) {
@@ -41,9 +41,9 @@ function wall(side, change) {
     let col = col_state + tetr[currTet].config[newConfigState][i][1] * 36;
     let row = row_state + tetr[currTet].config[newConfigState][i][0] * 36;
 
-    // to make sure tetrominoe does not go out-of-bounds
-    // when moving to the left or moving to the right
-    if (change == 0) {  // for moving left and right
+    /* to make sure tetrominoe does not go out-of-bounds
+     when moving to the left or moving to the right or rotating */
+    if (rotate == 0) {  // for moving left and right
       if (col <= 0 && side == 1) {
         return true;
       } else if (col >= WIDTH - SQUARE_PXL && side == 2) {
@@ -57,10 +57,10 @@ function wall(side, change) {
       }
     }
 
-    // to make sure tetrominoe does not hit any obstructions (occupied blocks)
-    // when moving to the left or moving to the right
-    if (change == 0) {  // for moving left and right
-      if (occupied[Math.max(0, row/36)][col/36 - 1] && side == 1) {
+    /* to make sure tetrominoe does not hit any obstructions (occupied blocks)
+     when moving to the left or moving to the right or rotating*/
+    if (rotate == 0) {  // for moving left and right
+      if (occupied[Math.max(0, row/36)][col/36 - 1] && side == 1) { // ensure index always greater than or equal to 0
         return true;
       } else if (occupied[Math.max(0, row/36)][col/36 + 1] && side == 2) {
         return true;
