@@ -27,7 +27,8 @@ const HEIGHT = 700;     // height of STATIC_GRID in num pixels
 const WIDTH = 350;      // width of STATIC_GRID in num pixels
 
 /* initialize 2d boolean array to tell whether a block
-   is occupied or not */
+   is occupied or not
+   Initially, nothing is occupied */
 var occupied = [];
 var row = []; // temporary row
 for (let i = 1; i <= 20; i++) {
@@ -63,8 +64,12 @@ var configState = 0;                         // initial configuration
 
 /* update canvas by drawing in new position of tetromino */
 function update() {
+  // the colour of the block
   DYNAMIC_CTX.fillStyle = "#bc4d9b";
+
+  // iterate through each block of tetromino and draw it
   for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
+    // drawing the block
     DYNAMIC_CTX.fillRect(col_state+(tetr[currTet].config[configState][i][1]*36), row_state+(tetr[currTet].config[configState][i][0]*36), SQUARE_PXL, SQUARE_PXL);
   }
   // draw any set tetrominoes
@@ -75,76 +80,6 @@ function update() {
       }
     }
   }
-}
-
-/* hit and out-of-bounds checker */
-function check() {
-  /* iterate through every block in the tetromino */
-  for (let i = 0; i < tetr[currTet].config[configState].length; i++) {
-    /* current pos for each block*/
-    let row = row_state + tetr[currTet].config[configState][i][0]*36;
-    let col = col_state + tetr[currTet].config[configState][i][1]*36;
-    /* see if any obstructions directly below */
-    let in_range = row >= 0; // cannot check occupied if row_state < 0
-    if (row > HEIGHT - SQUARE_PXL || (in_range && occupied[row/36 + 1][col/36])) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/*
-checker for left and right walls
-side parameter determines the side the user is moving to
-change parameter determines if the action is a rotation, or just a movement
-return a boolean on whether the move is legal or not
-*/
-function wall(side, change) {
-  // create newConfigState to store either the current config state or
-  // the next if we are changing configurations.
-  let newConfigState = (configState+change) % tetr[currTet].config.length;
-
-  /* iterate through every block in the tetromino */
-  for (let i = 0; i < tetr[currTet].config[newConfigState].length; i++) {
-    /* current pos for each block*/
-    let col = col_state + tetr[currTet].config[newConfigState][i][1] * 36;
-    let row = row_state + tetr[currTet].config[newConfigState][i][0] * 36;
-
-    // to make sure tetrominoe does not go out-of-bounds
-    // when moving to the left or moving to the right
-    if (change == 0) {  // for moving left and right
-      if (col <= 0 && side == 1) {
-        return true;
-      } else if (col >= WIDTH - SQUARE_PXL && side == 2) {
-        return true;
-      }
-    } else {            // for rotations
-      if (col < 0 && side == 1) {
-        return true;
-      } else if (col >= WIDTH && side == 2) {
-        return true;
-      }
-    }
-
-    // to make sure tetrominoe does not hit any obstructions (occupied blocks)
-    // when moving to the left or moving to the right
-    if (change == 0) {  // for moving left and right
-      if (occupied[Math.max(0, row/36)][col/36 - 1] && side == 1) {
-        return true;
-      } else if (occupied[Math.max(0, row/36)][col/36 + 1] && side == 2) {
-        return true;
-      }
-    } else {            // for rotations
-      if (occupied[Math.max(0, row/36)][col/36] && side == 1) {
-        return true;
-      } else if (occupied[Math.max(0, row/36)][col/36] && side == 2) {
-        return true;
-      }
-    }
-  }
-
-  // otherwise the move is legal.
-  return false;
 }
 
 /* for setting the tetrominoes
@@ -294,7 +229,9 @@ function loop() {
     row_state += 36;    // move downwards a single block
     callCount = 0;      // callcount decreases
   }
+  // continue the game loop
   window.requestAnimationFrame(loop);
 }
 
+// begin game loop
 window.requestAnimationFrame(loop);
