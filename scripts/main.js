@@ -128,7 +128,7 @@ function tetris() {
     /* if it is a tetris, remove entire row */
     if (cnt == 10) {
       numCleared++;             // add one to number of rows cleared
-      score += 555;             // increase score
+      score += 100;             // increase score
       rowCleared = true;        // a row has been cleared
       last = i;                 // this is the lowest row cleared
       top = Math.min(top, i);   // this is the highest row cleared
@@ -139,7 +139,7 @@ function tetris() {
     }
   }
   totalCleared += numCleared;          // increment total lines cleared
-  if (numCleared) score *= numCleared; // bonus if you clear more than 1 row at once
+  if (numCleared == 4) score += 800; // bonus if you clear more than 1 row at once
   if (rowCleared) fallDown(last, top); // drop down the blocks above after lines are cleared
 }
 
