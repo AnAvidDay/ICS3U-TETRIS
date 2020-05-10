@@ -9,4 +9,4 @@ My attempt at making the infamous Tetris game that we students know and love. <b
 Note there are a few bugs that I am unable to replicate. If you are able to, TELL ME!
 
 Find the project at:
-https://avid-day.github.io/ICS3U-TETRIS/html/index.html
+https://ULTYMAN.github.io/ICS3U-TETRIS/html/index.html
