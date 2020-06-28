@@ -1,4 +1,4 @@
-# ICS3U-TETRIS
+# TETRIS
 My attempt at making the infamous Tetris game that we students know and love. <br/>
 
 1. Move tetrominoe left and right using arrow keys. <br/>
@@ -9,4 +9,4 @@ My attempt at making the infamous Tetris game that we students know and love. <b
 Note there are a few bugs that I am unable to replicate. If you are able to, TELL ME!
 
 Find the project at:
-https://ULTYMAN.github.io/ICS3U-TETRIS/html/index.html
+https://ULTYMAN.github.io/TETRIS/html/index.html
