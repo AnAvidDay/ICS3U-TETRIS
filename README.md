@@ -9,4 +9,4 @@ My attempt at making the infamous Tetris game that we students know and love. <b
 Note there are a few bugs that I am unable to replicate. If you are able to, TELL ME!
 
 Find the project at:
-https://ULTYMAN.github.io/TETRIS/html/index.html
+https://davixiao.github.io/TETRIS/html/index.html
